@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Grk Zorba - Izmena</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  </head>
+  <div id="transparent">
+    <body class="body-edit-predstavu">
+      <nav class="navbar navbar-norm navbar-expand-lg fixed-top navbar-light bg-light">
+        <img id="logo" src="images/logo.png" alt="Logo">
+        <a class="navbar-brand" href="index.html">Pozorišta Srbije</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto d-flex align-items-end">
+            <li class="nav-item">
+              <a class="nav-link" id="dugme-prijava">Prijavi se</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" id="dugme-reg">Registruj se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="izmena-predstava-main">
+        <h2 class="edit-h2">Izmena predstave</h2>
+        <form class="edit-predstavu" action="index.html" method="post">
+          <div class="podela">
+            <div class="edit-levo">
+              <img src="images/predstava.jpeg" alt="Slika predstave" class="img-izmena-predstava">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input">
+                <label class="custom-file-label" for="inputGroupFile01">Izaberi fajl</label>
+              </div>
+            </div>
+            <div class="edit-desno">
+              <label for="naziv" class="tip-izmene">Naziv predstave</label>
+              <input type="text" class="box-izmena veliko-poljex" name="naziv predstave" value="Grk Zorba"><br>
+
+              <label for="trajanje" class="tip-izmene">Trajanje</label>
+              <input type="number" name="trajanje" class="box-izmena" value="120"><p class="text-dodatak"> minuta</p><br>
+
+              <label for="zanr" class="tip-izmene">Žanr</label>
+              <input type="text" class="box-izmena" name="zanr" value="Balet"><br>
+
+              <label for="cena" class="tip-izmene">Cena</label>
+              <input type="number" class="box-izmena" name="cena" value="700"><p class="text-dodatak"> dinara</p><br>
+
+              <label for="broj osoba" class="tip-izmene">Maksimalan broj osoba</label>
+              <input type="number" class="box-izmena" name="broj osoba" value="218"><br>
+            </div>
+          </div>
+          <div class="">
+            <br>
+            <label for="kratak-opis" class="tip-izmene-textarea">Kratak opis</label>
+            <textarea name="kratak-opis-box" class=".form-control box-izmena-text" rows="8" cols="80">
+  Aleksis Zorbas i Nik, mladi pisac, sreli su se prvi put u luci Pirej. Nik je nameravao da održi stari zapušteni rudnik. U stvari, bio je to razočaran mlad čovek koji je želeo da na ostrvu, među ljudima iz drugačijeg sveta, pronađe svoj mir. Zorba je bio po svemu drugačiji.
+            </textarea><br><br>
+
+            <label for="detaljan-opis" class="tip-izmene-textarea">Detaljan opis</label>
+            <textarea name="detaljan-opis-box" class=".form-control box-izmena-text" rows="8" cols="80">
+  Nepouzdano se tvrdi da je pravi Aleksis Zorbas živeo u Kateriniju. U ovaj grad blizu Egeja stigao je posle Prvog svetskog rata, ali se ne zna odakle. Zaposlio se u obližnjem rudniku, zaljubio se u kćerku direktora rudnika, hteo da se oženi njome, ali to njenom ocu nije odgovaralo.
+
+  Zna se da potomci Aleksisa Zorbasa danas žive u Beogradu, a pre Drugog svetskog rata živeli su u Skoplju i tamo je Zorba proveo poslednje dane svog burnog života. Siže priče o životu Grka Zorbe poslužio je grčkom književniku Nikosu Kazancakisu da napiše roman, s kojim je 1954. godine kandidovan za Nobelovu nagradu. Kasnije se za ovaj roman zainteresovao piščev prijatelj filmski reditelj Mihalis Kakojanis.
+
+  Vrlo brzo su se dogovorili da snime film, a muziku je napisao kompozitor Mikis Teodorakis. Kako su Kazancakis i Kakojanis rodom sa Krita i svoj kraj najbolje poznaju, čitavu radnju romana preneli su na ovo mitsko grčko ostrvo, gde je film i snimljen. Zahvaljujući filmskom glumcu Entoniju Kvinu, snimljen je film koji će zauvek ostati ostvarenje koje se pamti. Film je osvojio 3 filmske nagrade Oskar. Grk Zorba je obišao svet. Grk Zorba je ponovo zakucao na naša vrata. On je među nama.
+            </textarea><br>
+            <div class="dugmici">
+              <button type="button" class="btn btn-outline-dark btn-predstava">Sačuvaj</button>
+              <button type="button" class="btn btn-danger btn-predstava" name="button" onClick="return confirm('Da li ste sigurni da želite da obrišete ovu predstavu?');">Obriši</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="pop-up" id="pop-up-prijava">
+      <button type="button" class="close" id="button-close-prijava" aria-label="Close">
+        <span aria-hidden="true" class="pokusaj">&times;</span>
+      </button>
+      <form class="prijava" action="index.html" method="post">
+        <h2 class="prijavi-se">Prijava</h2><br>
+
+        <label for="korisnicko ime" class="korisnicko element">Korisnicko ime</label><br>
+        <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br><br>
+
+        <label for="password" class="password element">Lozinka</label><br>
+        <input type="password" name="psw" class="box password-box" required><br><br><br>
+
+        <button type="submit" class="btn btn-dark btn-login">Prijavi me</button>
+      </form>
+    </div>
+    
+    <div class="pop-up pop-up-reg" id="pop-up-reg">
+      <button type="button" class="close" id="button-close-registracija" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <form class="registracija" action="index.html" method="post">
+        <h2 class="prijavi-se">Registracija</h2>
+
+        <div class="reg-input">
+          <div class="reg-levo">
+            <label for="ime" class="element ime">Ime</label><br>
+            <input type="text" name="ime" class="box ime-box" required><br>
+
+            <label for="prezime" class="element prezime">Prezime</label><br>
+            <input type="text" name="prezime" class="box prezime-box" required><br>
+
+            <label for="korisnicko ime" class="element korisnicko">Korisnicko ime</label><br>
+            <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br>
+
+            <label for="password" class="element password">Lozinka</label><br>
+            <input type="password" name="psw" class="box password-box" required><br>
+
+            <label for="email" class="element email">Email</label><br>
+            <input type="email" name="email" class="box email-box" pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/" required><br>
+          </div>
+          <div class="reg-desno">
+
+            <label for="datum rodjenja" class="element datum-rodj datepicker">Datum rodjenja</label><br>
+            <input type="date" name="datum" class="box datum-box" required><br>
+
+            <label for="adresa" class="element adresa">Adresa</label><br>
+            <input type="text" name="adresa" class="box adresa-box" required><br>
+
+            <label for="grad" class="element mesto">Mesto</label><br>
+            <input type="text" name="grad" class="box mesto-box" required><br>
+
+            <label for="drzava" class="element drzava">Drzava</label><br>
+            <input type="country" name="adresa" class="box drzava-box" required><br>
+
+            <label for="broj telefona" class="element telefon">Broj telefona</label><br>
+            <input type="tel" name="telefon" class="box telefon-box" required><br>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-reg">Registruj me</button>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

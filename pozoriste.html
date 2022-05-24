@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="sr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Pozorišta Srbije</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="transparent">
+      <nav class="navbar navbar-norm navbar-expand-lg fixed-top navbar-light bg-light">
+        <img id="logo" src="images/logo.png" alt="Logo">
+        <a class="navbar-brand" href="index.html">Pozorišta Srbije</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto d-flex align-items-end">
+            <li class="nav-item">
+              <a class="nav-link" id="dugme-prijava">Prijavi se</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" id="dugme-reg">Registruj se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="o-pozoristu">
+        <h2 class="pozoriste-ime">Srpsko narodno pozorište</h2>
+        <img class="slika-pozoriste" src="images/snp.jpeg" alt="Srpsko narodno pozoriste">
+      </div
+
+      <div class="repertoar">
+        <a class="predstava" href="predstava.html">
+          <img class="slika-predstave" src="images/predstava.jpeg" alt="Slika predstave">
+          <div class="predstava-sredina">
+            <h3 class="naziv-predstave">Grk Zorba</h3>
+            <p class="opis-predstave">Aleksis Zorbas i Nik, mladi pisac, sreli su se prvi put u luci Pirej. Nik je nameravao da održi stari zapušteni rudnik. U stvari, bio je to razočaran mlad čovek koji je želeo da na ostrvu, među ljudima iz drugačijeg sveta, pronađe svoj mir. Zorba je bio po svemu drugačiji.</p>
+          </div>
+          <div class="vl"></div>
+          <div class="predstava-info">
+            <p>Žanr: Balet<br>
+              Trajanje: 120 minuta <br>
+              Cena: 700 dinara <br>
+              Ocena: 3.9
+            </p>
+          </div>
+        </a>
+        <a class="predstava" href="predstava.html">
+          <img class="slika-predstave" src="images/predstava.jpeg" alt="Slika predstave">
+          <div class="predstava-sredina">
+            <h3 class="naziv-predstave">Grk Zorba</h3>
+            <p class="opis-predstave">Aleksis Zorbas i Nik, mladi pisac, sreli su se prvi put u luci Pirej. Nik je nameravao da održi stari zapušteni rudnik. U stvari, bio je to razočaran mlad čovek koji je želeo da na ostrvu, među ljudima iz drugačijeg sveta, pronađe svoj mir. Zorba je bio po svemu drugačiji.</p>
+          </div>
+          <div class="vl"></div>
+          <div class="predstava-info">
+            <p>Žanr: Balet<br>
+              Trajanje: 120 minuta <br>
+              Cena: 700 dinara <br>
+              Ocena: 3.9
+            </p>
+          </div>
+        </a>
+        <a class="predstava" href="predstava.html">
+          <img class="slika-predstave" src="images/predstava.jpeg" alt="Slika predstave">
+          <div class="predstava-sredina">
+            <h3 class="naziv-predstave">Grk Zorba</h3>
+            <p class="opis-predstave">Aleksis Zorbas i Nik, mladi pisac, sreli su se prvi put u luci Pirej. Nik je nameravao da održi stari zapušteni rudnik. U stvari, bio je to razočaran mlad čovek koji je želeo da na ostrvu, među ljudima iz drugačijeg sveta, pronađe svoj mir. Zorba je bio po svemu drugačiji.</p>
+          </div>
+          <div class="vl"></div>
+          <div class="predstava-info">
+            <p>Žanr: Balet<br>
+              Trajanje: 120 minuta <br>
+              Cena: 700 dinara <br>
+              Ocena: 3.9
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <div class="footer">
+        <p class="footer-text">Adresa <br> Pozorišni trg 1, 21000 Novi Sad</p>
+        <p class="footer-text">Telefon <br> +381 21 520 091</p>
+      </div>
+    </div>
+
+    <div class="pop-up" id="pop-up-prijava">
+      <button type="button" class="close" id="button-close-prijava" aria-label="Close">
+        <span aria-hidden="true" class="pokusaj">&times;</span>
+      </button>
+      <form class="prijava" action="index.html" method="post">
+        <h2 class="prijavi-se">Prijava</h2><br>
+
+        <label for="korisnicko ime" class="korisnicko element">Korisnicko ime</label><br>
+        <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br><br>
+
+        <label for="password" class="password element">Lozinka</label><br>
+        <input type="password" name="psw" class="box password-box" required><br><br><br>
+
+        <button type="submit" class="btn btn-dark btn-login">Prijavi me</button>
+      </form>
+    </div>
+
+    <div class="pop-up pop-up-reg" id="pop-up-reg">
+      <button type="button" class="close" id="button-close-registracija" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <form class="registracija" action="index.html" method="post">
+        <h2 class="prijavi-se">Registracija</h2>
+
+        <div class="reg-input">
+          <div class="reg-levo">
+            <label for="ime" class="element ime">Ime</label><br>
+            <input type="text" name="ime" class="box ime-box" required><br>
+
+            <label for="prezime" class="element prezime">Prezime</label><br>
+            <input type="text" name="prezime" class="box prezime-box" required><br>
+
+            <label for="korisnicko ime" class="element korisnicko">Korisnicko ime</label><br>
+            <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br>
+
+            <label for="password" class="element password">Lozinka</label><br>
+            <input type="password" name="psw" class="box password-box" required><br>
+
+            <label for="email" class="element email">Email</label><br>
+            <input type="email" name="email" class="box email-box" pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/" required><br>
+          </div>
+          <div class="reg-desno">
+
+            <label for="datum rodjenja" class="element datum-rodj datepicker">Datum rodjenja</label><br>
+            <input type="date" name="datum" class="box datum-box" required><br>
+
+            <label for="adresa" class="element adresa">Adresa</label><br>
+            <input type="text" name="adresa" class="box adresa-box" required><br>
+
+            <label for="grad" class="element mesto">Mesto</label><br>
+            <input type="text" name="grad" class="box mesto-box" required><br>
+
+            <label for="drzava" class="element drzava">Drzava</label><br>
+            <input type="country" name="adresa" class="box drzava-box" required><br>
+
+            <label for="broj telefona" class="element telefon">Broj telefona</label><br>
+            <input type="tel" name="telefon" class="box telefon-box" required><br>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-reg">Registruj me</button>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
