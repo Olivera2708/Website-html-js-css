@@ -143,7 +143,7 @@ function prikazi_predstave(predstave, id_pozorista){
 
     opis = document.createElement("p");
     opis.innerHTML = "Žanr: " + predstave[sifra_predstava][predstava_dat].zanr +
-                      "<br>Trajanje: " +  predstave[sifra_predstava][predstava_dat].tajanje + " minuta" +
+                      "<br>Trajanje: " +  predstave[sifra_predstava][predstava_dat].trajanje + " minuta" +
                       "<br>Cena: " + predstave[sifra_predstava][predstava_dat].cena + " dinara" +
                       "<br>Ocena: " + predstave[sifra_predstava][predstava_dat].ocena;
 
