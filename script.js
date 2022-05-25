@@ -26,7 +26,7 @@ request_pozorista.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       pozorista = JSON.parse(this.responseText);
-      localStorage.setItem("pozorista", JSON.stringify(pozorista));
+      sessionStorage.setItem("pozorista", JSON.stringify(pozorista));
       if (document.URL.includes("index.html")) {
         prikazi_pozorista(pozorista);
       }
@@ -42,7 +42,7 @@ request_predstave.onreadystatechange = function () {
     if (this.status == 200) {
       predstave = JSON.parse(this.responseText);
       if (document.URL.includes("pozoriste.html")){
-        prikazi_predstave(predstave, localStorage.getItem("izabrano_pozoriste"));
+        prikazi_predstave(predstave, sessionStorage.getItem("izabrano_pozoriste"));
       }
     }
   }
@@ -57,7 +57,7 @@ function prikazi_pozorista(pozorista){
     pozoriste_card = document.createElement("a", "col-4");
     pozoriste_card.classList.add("card");
     pozoriste_card.addEventListener("click", function() {
-      localStorage.setItem("izabrano_pozoriste", element)
+      sessionStorage.setItem("izabrano_pozoriste", element)
     })
     pozoriste_card.href = "pozoriste.html"
 
@@ -84,7 +84,7 @@ function prikazi_pozorista(pozorista){
 
 //pozoriste.html
 function prikazi_predstave(predstave, id_pozorista){
-  let pozorista = JSON.parse(localStorage.getItem("pozorista"));
+  let pozorista = JSON.parse(sessionStorage.getItem("pozorista"));
   sifra_predstava = pozorista[id_pozorista].idPredstava;
 
   //postavljanje slike i imena pozorista
@@ -100,7 +100,7 @@ function prikazi_predstave(predstave, id_pozorista){
     let predstava = document.createElement("a");
     predstava.className = "predstava";
     predstava.addEventListener("click", function() {
-      localStorage.setItem("izabrana_predstava", predstave[sifra_predstava][predstava_dat]);
+      sessionStorage.setItem("izabrana_predstava", predstave[sifra_predstava][predstava_dat]);
     })
     predstava.href = "predstava.html";
 
