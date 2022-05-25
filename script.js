@@ -44,6 +44,9 @@ request_predstave.onreadystatechange = function () {
       if (document.URL.includes("pozoriste.html")){
         prikazi_predstave(predstave, sessionStorage.getItem("izabrano_pozoriste"));
       }
+      if (document.URL.includes("predstava.html")){
+        prikazi_predstavu(predstave, sessionStorage.getItem("izabrana_predstava"));
+      }
     }
   }
 };
@@ -100,7 +103,7 @@ function prikazi_predstave(predstave, id_pozorista){
     let predstava = document.createElement("a");
     predstava.className = "predstava";
     predstava.addEventListener("click", function() {
-      sessionStorage.setItem("izabrana_predstava", predstave[sifra_predstava][predstava_dat]);
+      sessionStorage.setItem("izabrana_predstava", predstava_dat);
     })
     predstava.href = "predstava.html";
 
@@ -155,6 +158,23 @@ function prikazi_predstave(predstave, id_pozorista){
 }
 
 //predstava
+function prikazi_predstavu(predstave, izabrana_predstava){
+  naziv_predstave = document.getElementsByClassName("naziv-predstave-info")[0];
+  opis_predstave = document.getElementsByClassName("veliki-opis-predstave")[0];
+  predsatva_slika = document.getElementsByClassName("predstava-info-slika")[0];
+  predstava_podaci = document.getElementsByClassName("predstava-podaci")[0];
+
+  izabrano_pozoriste = sessionStorage.getItem("izabrano_pozoriste");
+  sifra_predstava = pozorista[izabrano_pozoriste].idPredstava;
+
+  naziv_predstave.innerHTML = predstave[sifra_predstava][izabrana_predstava].naziv;
+  opis_predstave.innerHTML = predstave[sifra_predstava][izabrana_predstava].opis;
+  predsatva_slika.src = predstave[sifra_predstava][izabrana_predstava].slika;
+  predstava_podaci.innerHTML = "Žanr: " + predstave[sifra_predstava][izabrana_predstava].zanr +
+                                "<br>Trajanje: " + predstave[sifra_predstava][izabrana_predstava].trajanje + " minuta" +
+                                "<br>Cena: " + predstave[sifra_predstava][izabrana_predstava].cena + " dinara" +
+                                "<br>Maksimalan broj osoba: " + predstave[sifra_predstava][izabrana_predstava].maxOsobe;
+}
 
 
 // Pop-up za registraciju i za prijavu
