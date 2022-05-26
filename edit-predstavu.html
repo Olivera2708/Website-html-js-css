@@ -38,7 +38,7 @@
         <form class="edit-predstavu" action="index.html" method="post">
           <div class="podela">
             <div class="edit-levo">
-              <img src="images/predstava.jpeg" alt="Slika predstave" class="img-izmena-predstava">
+              <img alt="Slika predstave" class="img-izmena-predstava">
               <div class="custom-file">
                 <input type="file" class="custom-file-input">
                 <label class="custom-file-label" for="inputGroupFile01">Izaberi fajl</label>
@@ -46,36 +46,28 @@
             </div>
             <div class="edit-desno">
               <label for="naziv" class="tip-izmene">Naziv predstave</label>
-              <input type="text" class="box-izmena veliko-poljex" name="naziv predstave" value="Grk Zorba"><br>
+              <input type="text" class="box-izmena naziv" name="naziv predstave"><br>
 
               <label for="trajanje" class="tip-izmene">Trajanje</label>
-              <input type="number" name="trajanje" class="box-izmena" value="120"><p class="text-dodatak"> minuta</p><br>
+              <input type="number" name="trajanje" class="box-izmena trajanje"><p class="text-dodatak"> minuta</p><br>
 
               <label for="zanr" class="tip-izmene">Žanr</label>
-              <input type="text" class="box-izmena" name="zanr" value="Balet"><br>
+              <input type="text" class="box-izmena zanr" name="zanr"><br>
 
               <label for="cena" class="tip-izmene">Cena</label>
-              <input type="number" class="box-izmena" name="cena" value="700"><p class="text-dodatak"> dinara</p><br>
+              <input type="number" class="box-izmena cena" name="cena"><p class="text-dodatak"> dinara</p><br>
 
               <label for="broj osoba" class="tip-izmene">Maksimalan broj osoba</label>
-              <input type="number" class="box-izmena" name="broj osoba" value="218"><br>
+              <input type="number" class="box-izmena osoba" name="broj osoba"><br>
             </div>
           </div>
           <div class="">
             <br>
             <label for="kratak-opis" class="tip-izmene-textarea">Kratak opis</label>
-            <textarea name="kratak-opis-box" class=".form-control box-izmena-text" rows="8" cols="80">
-  Aleksis Zorbas i Nik, mladi pisac, sreli su se prvi put u luci Pirej. Nik je nameravao da održi stari zapušteni rudnik. U stvari, bio je to razočaran mlad čovek koji je želeo da na ostrvu, među ljudima iz drugačijeg sveta, pronađe svoj mir. Zorba je bio po svemu drugačiji.
-            </textarea><br><br>
+            <textarea name="kratak-opis-box" class=".form-control box-izmena-text mali" rows="4" cols="80"></textarea><br><br>
 
             <label for="detaljan-opis" class="tip-izmene-textarea">Detaljan opis</label>
-            <textarea name="detaljan-opis-box" class=".form-control box-izmena-text" rows="8" cols="80">
-  Nepouzdano se tvrdi da je pravi Aleksis Zorbas živeo u Kateriniju. U ovaj grad blizu Egeja stigao je posle Prvog svetskog rata, ali se ne zna odakle. Zaposlio se u obližnjem rudniku, zaljubio se u kćerku direktora rudnika, hteo da se oženi njome, ali to njenom ocu nije odgovaralo.
-
-  Zna se da potomci Aleksisa Zorbasa danas žive u Beogradu, a pre Drugog svetskog rata živeli su u Skoplju i tamo je Zorba proveo poslednje dane svog burnog života. Siže priče o životu Grka Zorbe poslužio je grčkom književniku Nikosu Kazancakisu da napiše roman, s kojim je 1954. godine kandidovan za Nobelovu nagradu. Kasnije se za ovaj roman zainteresovao piščev prijatelj filmski reditelj Mihalis Kakojanis.
-
-  Vrlo brzo su se dogovorili da snime film, a muziku je napisao kompozitor Mikis Teodorakis. Kako su Kazancakis i Kakojanis rodom sa Krita i svoj kraj najbolje poznaju, čitavu radnju romana preneli su na ovo mitsko grčko ostrvo, gde je film i snimljen. Zahvaljujući filmskom glumcu Entoniju Kvinu, snimljen je film koji će zauvek ostati ostvarenje koje se pamti. Film je osvojio 3 filmske nagrade Oskar. Grk Zorba je obišao svet. Grk Zorba je ponovo zakucao na naša vrata. On je među nama.
-            </textarea><br>
+            <textarea name="detaljan-opis-box" class=".form-control box-izmena-text veliki" rows="8" cols="80"></textarea><br>
             <div class="dugmici">
               <button type="button" class="btn btn-outline-dark btn-predstava">Sačuvaj</button>
               <button type="button" class="btn btn-danger btn-predstava" name="button" onClick="return confirm('Da li ste sigurni da želite da obrišete ovu predstavu?');">Obriši</button>
@@ -101,7 +93,7 @@
         <button type="submit" class="btn btn-dark btn-login">Prijavi me</button>
       </form>
     </div>
-    
+
     <div class="pop-up pop-up-reg" id="pop-up-reg">
       <button type="button" class="close" id="button-close-registracija" aria-label="Close">
         <span aria-hidden="true">&times;</span>

@@ -1,9 +1,3 @@
-let prijava_popup = document.getElementById('pop-up-prijava');
-let registracija_popup = document.getElementById('pop-up-reg')
-let pozadina = document.getElementById('transparent')
-
-kartice = document.getElementsByClassName("cards-lg")[0]
-
 let url_korisnici = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/korisnici.json";
 let url_pozorista = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/pozorista.json";
 let url_predstave = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/predstave.json";
@@ -15,12 +9,14 @@ request_korisnici.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       korisnici = JSON.parse(this.responseText);
-      sessionStorage.setItem("korisnici", korisnici);
       if (document.URL.includes("admin.html")) {
         prikazi_sve_korisnike(korisnici);
       }
-      if (document.URL.includes("profil.html")){
+      if (document.URL.includes("/profil.html")){
         prikazi_korisnika(korisnici, sessionStorage.getItem("izabrani_korisnik"));
+      }
+      if (document.URL.includes("edit-profil.html")){
+        prikazi_edit_profil(korisnici, sessionStorage.getItem("izabrani_korisnik"));
       }
     }
   }
@@ -55,6 +51,9 @@ request_predstave.onreadystatechange = function () {
       if (document.URL.includes("predstava.html")){
         prikazi_predstavu(predstave, sessionStorage.getItem("izabrana_predstava"));
       }
+      if (document.URL.includes("edit-predstavu.html")){
+        izmeni_predstavu(predstave, sessionStorage.getItem("izabrana_predstava"), sessionStorage.getItem("izabrano_pozoriste"));
+      }
     }
   }
 };
@@ -64,6 +63,8 @@ request_predstave.send();
 
 //index.html
 function prikazi_pozorista(pozorista){
+  kartice = document.getElementsByClassName("cards-lg")[0]
+
   for (let element in pozorista){
     pozoriste_card = document.createElement("a", "col-4");
     pozoriste_card.classList.add("card");
@@ -167,6 +168,8 @@ function prikazi_predstave(predstave, id_pozorista){
 
 //predstava.html
 function prikazi_predstavu(predstave, izabrana_predstava){
+  sessionStorage.setItem("izabrana_predstava", izabrana_predstava);
+
   let naziv_predstave = document.getElementsByClassName("naziv-predstave-info")[0];
   let opis_predstave = document.getElementsByClassName("veliki-opis-predstave")[0];
   let predsatva_slika = document.getElementsByClassName("predstava-info-slika")[0];
@@ -188,7 +191,7 @@ function prikazi_predstavu(predstave, izabrana_predstava){
 function prikazi_sve_korisnike(korisnici){
   let user_list = document.getElementsByClassName("user-list")[0];
 
-  for (korisnik in korisnici){
+  for (let korisnik in korisnici){
     let user_card = document.createElement("a");
     user_card.className = "user-card col-lg-3 col-md-4";
     user_card.addEventListener("click", function(e){
@@ -231,10 +234,12 @@ function prikazi_korisnika(korisnici, izabran_korisnik) {
   ime.innerHTML = korisnici[izabran_korisnik].ime;
 
   let prezime = document.getElementsByClassName("profil-unos prezime")[0];
-  prezime.innerHTML = korisnici[izabran_korisnik].prezime;
+  prezime.innerHTML = korisnici[izabran_korisnik].prezime
+
+  let datum_dat = korisnici[izabran_korisnik].datumRodjenja.split("-")
 
   let datum = document.getElementsByClassName("profil-unos datum")[0];
-  datum.innerHTML = korisnici[izabran_korisnik].datumRodjenja;
+  datum.innerHTML = datum_dat[2] + "." + datum_dat[1] + "." + datum_dat[0] + ".";
 
   let broj = document.getElementsByClassName("profil-unos brojtel")[0];
   broj.innerHTML = korisnici[izabran_korisnik].telefon;
@@ -248,20 +253,91 @@ function prikazi_korisnika(korisnici, izabran_korisnik) {
   grad.innerHTML = adresa_dat[1];
 }
 
+//edit-profil.html
+function prikazi_edit_profil(korisnici, izabran_korisnik){
+  let ime = document.getElementsByClassName("box ime-box")[0];
+  ime.value = korisnici[izabran_korisnik].ime;
+
+  let prezime = document.getElementsByClassName("box prezime-box")[0];
+  prezime.value = korisnici[izabran_korisnik].prezime;
+
+  let korisniko_ime = document.getElementsByClassName("box korisnicko-box")[0];
+  korisniko_ime.value = korisnici[izabran_korisnik].korisnickoIme;
+
+  let lozinka = document.getElementsByClassName("box password-box")[0];
+  lozinka.value = korisnici[izabran_korisnik].lozinka;
+
+  let email = document.getElementsByClassName("box email-box")[0];
+  email.value = korisnici[izabran_korisnik].email;
+
+  let datum = document.getElementsByClassName("box datum-box")[0];
+  datum.value = korisnici[izabran_korisnik].datumRodjenja;
+
+  let adresa_dat = korisnici[izabran_korisnik].adresa.split(", ");
+
+  let adresa = document.getElementsByClassName("box adresa-box")[0];
+  adresa.value = adresa_dat[0];
+
+  let mesto = document.getElementsByClassName("box mesto-box")[0];
+  mesto.value = adresa_dat[1];
+
+  let telefon = document.getElementsByClassName("box telefon-box")[0];
+  telefon.value = korisnici[izabran_korisnik].telefon;
+
+  let sacuvaj = document.getElementsByClassName("btn btn-danger btn-profil-sacuvaj");
+}
+
+//edit-predsatvu.html
+function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
+  sifra_predstava = pozorista[id_pozorista].idPredstava;
+
+  let slika = document.getElementsByClassName("img-izmena-predstava")[0];
+  slika.src = predstave[sifra_predstava][izabrana_predstava].slika;
+
+  let naziv = document.getElementsByClassName("box-izmena naziv")[0];
+  naziv.value = predstave[sifra_predstava][izabrana_predstava].naziv;
+
+  let trajanje = document.getElementsByClassName("box-izmena trajanje")[0];
+  trajanje.value = predstave[sifra_predstava][izabrana_predstava].trajanje;
+
+  let zanr = document.getElementsByClassName("box-izmena zanr")[0];
+  zanr.value = predstave[sifra_predstava][izabrana_predstava].zanr;
+
+  let cena = document.getElementsByClassName("box-izmena cena")[0];
+  cena.value = predstave[sifra_predstava][izabrana_predstava].cena;
+
+  let osoba = document.getElementsByClassName("box-izmena osoba")[0];
+  osoba.value = predstave[sifra_predstava][izabrana_predstava].maxOsobe;
+
+  let kratak_opis = document.getElementsByClassName(".form-control box-izmena-text mali")[0];
+  kratak_opis.innerHTML = predstave[sifra_predstava][izabrana_predstava].kratakOpis;
+
+  let opis = document.getElementsByClassName(".form-control box-izmena-text veliki")[0];
+  opis.innerHTML = predstave[sifra_predstava][izabrana_predstava].opis;
+
+  obrisi = document.getElementsByClassName("btn btn-danger btn-predstava")[0];
+
+  sacuvaj = document.getElementsByClassName("btn btn-outline-dark btn-predstava")[0];
+}
+
 
 // Pop-up za registraciju i za prijavu
+let prijava_popup = document.getElementById('pop-up-prijava');
+let registracija_popup = document.getElementById('pop-up-reg');
+let pozadina = document.getElementById('transparent');
+
 dugme_prijava = document.getElementById('dugme-prijava');
 dugme_prijava.addEventListener('click', function(e){
   registracija_popup.style.display = 'none';
   prijava_popup.style.display = 'block';
-  pozadina.style.opacity = '0.7';
+  pozadina.style.opacity = '0.5';
 })
 
 dugme_registracija = document.getElementById('dugme-reg');
 dugme_registracija.addEventListener('click', function(e){
   prijava_popup.style.display = 'none';
   registracija_popup.style.display = 'block';
-  pozadina.style.opacity = '0.7';
+  pozadina.style.opacity = '0.5';
 })
 
 dugme_izlaz_prij = document.getElementById('button-close-prijava');
