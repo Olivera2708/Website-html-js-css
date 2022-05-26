@@ -15,6 +15,13 @@ request_korisnici.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       korisnici = JSON.parse(this.responseText);
+      sessionStorage.setItem("korisnici", korisnici);
+      if (document.URL.includes("admin.html")) {
+        prikazi_sve_korisnike(korisnici);
+      }
+      if (document.URL.includes("profil.html")){
+        prikazi_korisnika(korisnici, sessionStorage.getItem("izabrani_korisnik"));
+      }
     }
   }
 };
@@ -41,6 +48,7 @@ request_predstave.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       predstave = JSON.parse(this.responseText);
+      sessionStorage.setItem("predsatve", predstave);
       if (document.URL.includes("pozoriste.html")){
         prikazi_predstave(predstave, sessionStorage.getItem("izabrano_pozoriste"));
       }
@@ -108,7 +116,7 @@ function prikazi_predstave(predstave, id_pozorista){
     predstava.href = "predstava.html";
 
     //postavljanje adrese
-    adresa = document.getElementsByClassName("footer-text")[0];
+    let adresa = document.getElementsByClassName("footer-text")[0];
     adresa.innerHTML = "Adresa<br>" + pozorista[id_pozorista].adresa;
 
     //slika predstva
@@ -127,7 +135,7 @@ function prikazi_predstave(predstave, id_pozorista){
     naziv_prestave.innerHTML = predstave[sifra_predstava][predstava_dat].naziv;
     predstava_sredina.appendChild(naziv_prestave);
 
-    opis_predstave = document.createElement("p");
+    let opis_predstave = document.createElement("p");
     opis_predstave.className = "opis-predstave";
     opis_predstave.innerHTML = predstave[sifra_predstava][predstava_dat].kratakOpis;
     predstava_sredina.appendChild(opis_predstave);
@@ -141,10 +149,10 @@ function prikazi_predstave(predstave, id_pozorista){
     predstava.appendChild(vl);
 
     //predstava-info
-    predstava_info = document.createElement("div");
+    let predstava_info = document.createElement("div");
     predstava_info.className = "predstava-info";
 
-    opis = document.createElement("p");
+    let opis = document.createElement("p");
     opis.innerHTML = "Žanr: " + predstave[sifra_predstava][predstava_dat].zanr +
                       "<br>Trajanje: " +  predstave[sifra_predstava][predstava_dat].trajanje + " minuta" +
                       "<br>Cena: " + predstave[sifra_predstava][predstava_dat].cena + " dinara" +
@@ -157,15 +165,15 @@ function prikazi_predstave(predstave, id_pozorista){
   }
 }
 
-//predstava
+//predstava.html
 function prikazi_predstavu(predstave, izabrana_predstava){
-  naziv_predstave = document.getElementsByClassName("naziv-predstave-info")[0];
-  opis_predstave = document.getElementsByClassName("veliki-opis-predstave")[0];
-  predsatva_slika = document.getElementsByClassName("predstava-info-slika")[0];
-  predstava_podaci = document.getElementsByClassName("predstava-podaci")[0];
+  let naziv_predstave = document.getElementsByClassName("naziv-predstave-info")[0];
+  let opis_predstave = document.getElementsByClassName("veliki-opis-predstave")[0];
+  let predsatva_slika = document.getElementsByClassName("predstava-info-slika")[0];
+  let predstava_podaci = document.getElementsByClassName("predstava-podaci")[0];
 
-  izabrano_pozoriste = sessionStorage.getItem("izabrano_pozoriste");
-  sifra_predstava = pozorista[izabrano_pozoriste].idPredstava;
+  let izabrano_pozoriste = sessionStorage.getItem("izabrano_pozoriste");
+  let sifra_predstava = pozorista[izabrano_pozoriste].idPredstava;
 
   naziv_predstave.innerHTML = predstave[sifra_predstava][izabrana_predstava].naziv;
   opis_predstave.innerHTML = predstave[sifra_predstava][izabrana_predstava].opis;
@@ -174,6 +182,70 @@ function prikazi_predstavu(predstave, izabrana_predstava){
                                 "<br>Trajanje: " + predstave[sifra_predstava][izabrana_predstava].trajanje + " minuta" +
                                 "<br>Cena: " + predstave[sifra_predstava][izabrana_predstava].cena + " dinara" +
                                 "<br>Maksimalan broj osoba: " + predstave[sifra_predstava][izabrana_predstava].maxOsobe;
+}
+
+//admin.html
+function prikazi_sve_korisnike(korisnici){
+  let user_list = document.getElementsByClassName("user-list")[0];
+
+  for (korisnik in korisnici){
+    let user_card = document.createElement("a");
+    user_card.className = "user-card col-lg-3 col-md-4";
+    user_card.addEventListener("click", function(e){
+      sessionStorage.setItem("izabrani_korisnik", korisnik);
+    });
+    user_card.href = "profil.html";
+
+    let user_name = document.createElement("h3");
+    user_name.className = "user-name";
+    user_name.innerHTML = korisnici[korisnik].ime + " " + korisnici[korisnik].prezime;
+    user_card.appendChild(user_name);
+
+    let user_hr = document.createElement("hr");
+    user_hr.className = "user-hr";
+    user_card.appendChild(user_hr);
+
+    let user_email = document.createElement("h4");
+    user_email.className = "user-email";
+    user_email.innerHTML = korisnici[korisnik].email;
+    user_card.appendChild(user_email);
+
+    let deaktiviraj = document.createElement("button");
+    deaktiviraj.className = "btn btn-outline-danger btn-deaktiviraj";
+    deaktiviraj.innerHTML = "Deaktiviraj";
+    user_card.appendChild(deaktiviraj);
+
+    user_list.appendChild(user_card);
+  }
+}
+
+//profil.html
+function prikazi_korisnika(korisnici, izabran_korisnik) {
+  let korisnicko_ime = document.getElementsByClassName("profil-korisnicko-ime")[0];
+  korisnicko_ime.innerHTML = korisnici[izabran_korisnik].korisnickoIme;
+
+  let email = document.getElementsByClassName("profil-email")[0];
+  email.innerHTML = korisnici[izabran_korisnik].email;
+
+  let ime = document.getElementsByClassName("profil-unos ime")[0];
+  ime.innerHTML = korisnici[izabran_korisnik].ime;
+
+  let prezime = document.getElementsByClassName("profil-unos prezime")[0];
+  prezime.innerHTML = korisnici[izabran_korisnik].prezime;
+
+  let datum = document.getElementsByClassName("profil-unos datum")[0];
+  datum.innerHTML = korisnici[izabran_korisnik].datumRodjenja;
+
+  let broj = document.getElementsByClassName("profil-unos brojtel")[0];
+  broj.innerHTML = korisnici[izabran_korisnik].telefon;
+
+  let adresa_dat = korisnici[izabran_korisnik].adresa.split(", ");
+
+  let adresa = document.getElementsByClassName("profil-unos adresa")[0];
+  adresa.innerHTML = adresa_dat[0];
+
+  let grad = document.getElementsByClassName("profil-unos grad")[0];
+  grad.innerHTML = adresa_dat[1];
 }
 
 
