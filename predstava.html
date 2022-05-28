@@ -24,10 +24,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto d-flex align-items-end">
             <li class="nav-item">
+              <a class="nav-link" href="admin.html">Admin</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" id="dugme-prijava">Prijavi se</a>
             </li>
             <li class="nav-item active">
               <a class="nav-link" id="dugme-reg">Registruj se</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="dugme-odjava">Odjavi se</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="profil.html" id="dugme-profil">Moj profil</a>
             </li>
           </ul>
         </div>
@@ -95,9 +104,11 @@
         <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br><br>
 
         <label for="password" class="password element">Lozinka</label><br>
-        <input type="password" name="psw" class="box password-box" required><br><br><br>
+        <input type="password" name="psw" class="box password-box" required><br><br>
 
-        <button type="submit" class="btn btn-dark btn-login">Prijavi me</button>
+        <p id="alert"></p>
+
+        <button type="button" class="btn btn-dark btn-login">Prijavi me</button>
       </form>
     </div>
 
@@ -108,42 +119,41 @@
       <form class="registracija" action="index.html" method="post">
         <h2 class="prijavi-se">Registracija</h2>
 
-        <div class="reg-input">
-          <div class="reg-levo">
-            <label for="ime" class="element ime">Ime</label><br>
-            <input type="text" name="ime" class="box ime-box" required><br>
+          <div class="reg-input">
+            <div class="reg-levo">
+              <label for="ime" class="element ime">Ime</label><br>
+              <input type="text" name="ime" class="box ime-box" required><br>
 
-            <label for="prezime" class="element prezime">Prezime</label><br>
-            <input type="text" name="prezime" class="box prezime-box" required><br>
+              <label for="prezime" class="element prezime">Prezime</label><br>
+              <input type="text" name="prezime" class="box prezime-box" required><br>
 
-            <label for="korisnicko ime" class="element korisnicko">Korisnicko ime</label><br>
-            <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br>
+              <label for="korisnicko ime" class="element korisnicko">Korisnicko ime</label><br>
+              <input type="text" name="korisnicko ime" class="box korisnicko-box-reg" required><br>
 
-            <label for="password" class="element password">Lozinka</label><br>
-            <input type="password" name="psw" class="box password-box" required><br>
+              <label for="password" class="element password">Lozinka</label><br>
+              <input type="password" name="psw" class="box password-box-reg" required><br>
+            </div>
+            <div class="reg-desno">
 
-            <label for="email" class="element email">Email</label><br>
-            <input type="email" name="email" class="box email-box" pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/" required><br>
+              <label for="datum rodjenja" class="element datum-rodj datepicker">Datum rodjenja</label><br>
+              <input type="date" name="datum" class="box datum-box" required><br>
+
+              <label for="adresa" class="element adresa">Adresa</label><br>
+              <input type="text" name="adresa" class="box adresa-box" required><br>
+
+              <label for="grad" class="element mesto">Mesto</label><br>
+              <input type="text" name="grad" class="box mesto-box" required><br>
+
+              <label for="broj telefona" class="element telefon">Broj telefona</label><br>
+              <input type="tel" name="telefon" class="box telefon-box" required><br>
+            </div>
           </div>
-          <div class="reg-desno">
-
-            <label for="datum rodjenja" class="element datum-rodj datepicker">Datum rodjenja</label><br>
-            <input type="date" name="datum" class="box datum-box" required><br>
-
-            <label for="adresa" class="element adresa">Adresa</label><br>
-            <input type="text" name="adresa" class="box adresa-box" required><br>
-
-            <label for="grad" class="element mesto">Mesto</label><br>
-            <input type="text" name="grad" class="box mesto-box" required><br>
-
-            <label for="drzava" class="element drzava">Drzava</label><br>
-            <input type="country" name="adresa" class="box drzava-box" required><br>
-
-            <label for="broj telefona" class="element telefon">Broj telefona</label><br>
-            <input type="tel" name="telefon" class="box telefon-box" required><br>
-          </div>
+        <div class="email-center">
+          <label for="email" class="element email">Email</label>
+          <input type="email" name="email" class="box email-box" required><br>
+          <p id="alert-reg"></p>
         </div>
-        <button type="submit" class="btn btn-dark btn-reg">Registruj me</button>
+        <button type="button" class="btn btn-dark btn-reg">Registruj me</button>
       </form>
     </div>
     <script src="script.js"></script>

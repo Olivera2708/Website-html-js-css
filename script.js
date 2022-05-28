@@ -9,6 +9,7 @@ request_korisnici.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       korisnici = JSON.parse(this.responseText);
+      sessionStorage.setItem("korisnici", JSON.stringify(korisnici));
       if (document.URL.includes("admin.html")) {
         prikazi_sve_korisnike(korisnici);
       }
@@ -325,35 +326,239 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
 let prijava_popup = document.getElementById('pop-up-prijava');
 let registracija_popup = document.getElementById('pop-up-reg');
 let pozadina = document.getElementsByClassName('transparent')[0];
+let alert_prijava = document.getElementById('alert');
 
-dugme_prijava = document.getElementById('dugme-prijava');
-dugme_prijava.addEventListener('click', function(e){
+let navbar_prijava = document.getElementById('dugme-prijava');
+let navbar_registracija = document.getElementById('dugme-reg');
+let navbar_odjava = document.getElementById('dugme-odjava');
+let navbar_profil = document.getElementById('dugme-profil');
+
+//navbar
+function prijavljen_navbar(){
+  navbar_odjava.style.display = "block";
+  navbar_profil.style.display = "block";
+  navbar_prijava.style.display = "none";
+  navbar_registracija.style.display = "none";
+}
+
+function odjavljen_navbar(){
+  navbar_odjava.style.display = "none";
+  navbar_profil.style.display = "none";
+  navbar_prijava.style.display = "block";
+  navbar_registracija.style.display = "block";
+}
+
+//info
+function info_alert(string){
+  let navbar = document.getElementById("navbar");
+  let info = document.createElement("div");
+  info.classList.add("alert",  "alert-success", "alert-dismissible", "fade", "show");
+  info.setAttribute("role", "alert");
+  info.width = "500px"
+  info.innerHTML = string;
+  info.style.display = "block";
+  info.style.position = "absolute";
+  info.style.top = "15vh";
+  info.style.right = "5vw";
+
+  let dugme = document.createElement("button");
+  dugme.type = "button";
+  dugme.className = "close";
+  dugme.setAttribute("data-dismiss", "alert");
+  dugme.ariaLabel = "close";
+
+  let span = document.createElement("span");
+  span.ariaHidden = "true";
+  span.innerHTML = "&times;"
+
+  dugme.appendChild(span);
+  info.appendChild(dugme);
+
+  //insert to absolute position
+  document.body.appendChild(info);
+}
+
+if (sessionStorage.getItem("navbar") == "prijavljen"){
+  prijavljen_navbar();
+}
+else {
+  odjavljen_navbar();
+}
+
+//prijava
+let korisnicko_ime_box = document.getElementsByClassName('box korisnicko-box')[0];
+let lozinka_box = document.getElementsByClassName('box password-box')[0];
+
+let prijavi_me = document.getElementsByClassName('btn btn-dark btn-login')[0];
+prijavi_me.addEventListener('click', function(e){
+  let lozinka = lozinka_box.value.trim();
+  let korisnicko_ime = korisnicko_ime_box.value.trim();
+  //regex porvera ispravnosti
+  let korisnici = JSON.parse(sessionStorage.getItem("korisnici"));
+  let uspeh = 0;
+  for (let korisnik in korisnici){
+    if (korisnici[korisnik].korisnickoIme == korisnicko_ime && korisnici[korisnik].lozinka == lozinka){
+      sessionStorage.setItem("ulogovani_korisnik", korisnicko_ime);
+      //promeni navbar
+      sessionStorage.setItem("navbar", "prijavljen");
+      prijavljen_navbar();
+      //skloni pop-up
+      reset_value();
+      prijava_popup.style.display = 'none';
+      pozadina.style.pointerEvents = 'auto';
+      document.body.style.overflowY = 'auto'
+      pozadina.style.opacity = '1';
+      //sacuvaj ako ode u moj profil
+      sessionStorage.setItem("izabrani_korisnik", korisnik);
+      uspeh = 1
+    }
+  }
+  if (uspeh == 0){
+    alert_prijava.style.color = "red";
+    alert_prijava.style.textAlign = "center"
+    alert_prijava.innerHTML = "Ne postoji korsnik sa ovim korisničkim imenom i lozinkom"
+  }
+});
+
+//registracija
+ime_box = document.getElementsByClassName("box ime-box")[0];
+prezime_box = document.getElementsByClassName("box prezime-box")[0];
+korisnicko_ime_box_reg = document.getElementsByClassName("box korisnicko-box-reg")[0];
+lozinka_box_reg = document.getElementsByClassName("box password-box-reg")[0];
+email_box = document.getElementsByClassName("box email-box")[0];
+datum_box = document.getElementsByClassName("box datum-box")[0];
+adresa_box = document.getElementsByClassName("box adresa-box")[0];
+grad_box = document.getElementsByClassName("box mesto-box")[0];
+telefon_box = document.getElementsByClassName("box telefon-box")[0];
+let alert_reg = document.getElementById('alert-reg');
+
+let registruj_me = document.getElementsByClassName('btn btn-dark btn-reg')[0];
+registruj_me.addEventListener('click', function(e){
+  alert_reg.style.color = "red";
+  alert_reg.style.textAlign = "center"
+  let uspeh = 1;
+  //provera imena
+  reg_ime_prz = RegExp("^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$");
+  if (!reg_ime_prz.test(ime_box.value.trim())){
+    uspeh = 0
+    alert_reg.innerHTML = "Potrebno je uneti ime";
+  }
+  //provera prezimena
+  if (!reg_ime_prz.test(prezime_box.value.trim())){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti prezime";
+  }
+  //provera korisnickog imena
+  if ((korisnicko_ime_box_reg.value.trim()).length < 5){
+    alert_reg.innerHTML = "Korisnicko ime mora imati vise od 4 karaktera";
+  }
+  for (let korisnik in korisnici){
+    if (korisnicko_ime_box_reg.value.trim() == korisnici[korisnik].korisnickoIme){
+      uspeh = 0
+      alert_reg.innerHTML = "Izabrano korisnicko ime je zauzeto";
+    }
+  }
+  //lozinka
+  if (lozinka_box_reg.value.length < 7){
+    uspeh = 0;
+    alert_reg.innerHTML = "Lozinka mora sadrzati bar 7 karaktera";
+  }
+  //datum rodjenja
+  if (!datum_box.value){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti datum"
+  }
+  let danas = new Date().toISOString().slice(0, 10);
+  if (datum_box.value > danas){
+    uspeh = 0;
+    alert_reg.innerHTML = "Datum mora biti u prošlosti";
+  }
+  //adresa
+  if (adresa_box.value.trim() == ""){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti adresu";
+  }
+  //mesto
+  if (grad_box.value.trim() == ""){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti grad";
+  }
+  //broj telefona
+  let reg_tel = new RegExp("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$");
+  if (!reg_tel.test(telefon_box.value.trim())){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti broj telefona";
+  }
+  //email
+  let reg_email = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!reg_email.test(email_box.value.trim())){
+    uspeh = 0;
+    alert_reg.innerHTML = "Potrebno je uneti validnu email adresu"
+  }
+
+  //provera jel sve uspesno
+  if (uspeh == 1){
+    sessionStorage.setItem("navbar", "prijavljen");
+    prijavljen_navbar();
+    console.log("USPEH");
+    reset_value()
+  }
+});
+
+function reset_value(){
+  //prijava
+  alert_prijava.innerHTML= "";
+  korisnicko_ime_box.value = "";
+  lozinka_box.value = "";
+
+  //registracija
+  alert_reg.innerHTML="";
+  ime_box.value = "";
+  korisnicko_ime_box_reg.value = "";
+  lozinka_box_reg.value = "";
+  prezime_box.value = "";
+  email_box.value = "";
+  datum_box.value = "";
+  adresa_box.value = "";
+  grad_box.value = "";
+  telefon_box.value = "";
+}
+
+navbar_odjava.addEventListener('click', function(e){
+  sessionStorage.setItem("navbar", "odjavljen");
+  odjavljen_navbar();
+  info_alert("Uspešno ste se izlogovali!");
+})
+
+
+navbar_prijava.addEventListener('click', function(e){
   pozadina.style.pointerEvents = 'none';
   document.body.style.overflowY = 'hidden'
   prijava_popup.style.display = 'block';
   pozadina.style.opacity = '0.5';
-})
+});
 
-dugme_registracija = document.getElementById('dugme-reg');
-dugme_registracija.addEventListener('click', function(e){
+navbar_registracija.addEventListener('click', function(e){
   pozadina.style.pointerEvents = 'none';
   document.body.style.overflowY = 'hidden'
   registracija_popup.style.display = 'block';
   pozadina.style.opacity = '0.5';
-})
+});
 
-dugme_izlaz_prij = document.getElementById('button-close-prijava');
+let dugme_izlaz_prij = document.getElementById('button-close-prijava');
 dugme_izlaz_prij.addEventListener('click', function(e){
+  reset_value()
   prijava_popup.style.display = 'none';
   pozadina.style.pointerEvents = 'auto';
   document.body.style.overflowY = 'auto'
   pozadina.style.opacity = '1';
-})
+});
 
-dugme_izlaz_reg = document.getElementById('button-close-registracija');
+let dugme_izlaz_reg = document.getElementById('button-close-registracija');
 dugme_izlaz_reg.addEventListener('click', function(e){
+  reset_value()
   registracija_popup.style.display = 'none';
   pozadina.style.pointerEvents = 'auto';
   document.body.style.overflowY = 'auto'
   pozadina.style.opacity = '1';
-})
+});

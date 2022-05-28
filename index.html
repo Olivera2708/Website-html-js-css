@@ -14,7 +14,7 @@
   </head>
   <body id="pozadina">
     <div class="transparent">
-      <nav class="navbar navbar-transparent navbar-expand-lg fixed-top navbar-dark bg-transparent">
+      <nav id="navbar" class="navbar navbar-transparent navbar-expand-lg fixed-top navbar-dark bg-transparent">
         <img id="logo" src="images/logo.png" alt="Logo">
         <a class="navbar-brand" href="#">Pozorišta Srbije</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,12 @@
             </li>
             <li class="nav-item active">
               <a class="nav-link" id="dugme-reg">Registruj se</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="dugme-odjava">Odjavi se</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="profil.html" id="dugme-profil">Moj profil</a>
             </li>
           </ul>
         </div>
@@ -58,9 +64,11 @@
         <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br><br>
 
         <label for="password" class="password element">Lozinka</label><br>
-        <input type="password" name="psw" class="box password-box" required><br><br><br>
+        <input type="password" name="psw" class="box password-box" required><br><br>
 
-        <button type="submit" class="btn btn-dark btn-login">Prijavi me</button>
+        <p id="alert"></p>
+
+        <button type="button" class="btn btn-dark btn-login">Prijavi me</button>
       </form>
     </div>
 
@@ -80,13 +88,10 @@
               <input type="text" name="prezime" class="box prezime-box" required><br>
 
               <label for="korisnicko ime" class="element korisnicko">Korisnicko ime</label><br>
-              <input type="text" name="korisnicko ime" class="box korisnicko-box" required><br>
+              <input type="text" name="korisnicko ime" class="box korisnicko-box-reg" required><br>
 
               <label for="password" class="element password">Lozinka</label><br>
-              <input type="password" name="psw" class="box password-box" required><br>
-
-              <label for="email" class="element email">Email</label><br>
-              <input type="email" name="email" class="box email-box" pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/" required><br>
+              <input type="password" name="psw" class="box password-box-reg" required><br>
             </div>
             <div class="reg-desno">
 
@@ -99,14 +104,16 @@
               <label for="grad" class="element mesto">Mesto</label><br>
               <input type="text" name="grad" class="box mesto-box" required><br>
 
-              <label for="drzava" class="element drzava">Drzava</label><br>
-              <input type="country" name="adresa" class="box drzava-box" required><br>
-
               <label for="broj telefona" class="element telefon">Broj telefona</label><br>
               <input type="tel" name="telefon" class="box telefon-box" required><br>
             </div>
           </div>
-        <button type="submit" class="btn btn-dark btn-reg">Registruj me</button>
+        <div class="email-center">
+          <label for="email" class="element email">Email</label>
+          <input type="email" name="email" class="box email-box" required><br>
+          <p id="alert-reg"></p>
+        </div>
+        <button type="button" class="btn btn-dark btn-reg">Registruj me</button>
       </form>
     </div>
     <script src="script.js"></script>

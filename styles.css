@@ -1,6 +1,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   overflow-x: hidden;
+  position: relative;
 }
 
 h1 {
@@ -1092,5 +1093,17 @@ textarea {
   .profil-podaci{
     margin-left: 20vw;
     margin-right: 20vw;
+  }
+}
+
+#dugme-profil, #dugme-odjava{
+  display: none;
+}
+
+@media only screen and (min-width: 992px){
+  .email-center{
+    display: block;
+    margin: auto;
+    width: 50%;
   }
 }
