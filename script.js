@@ -350,7 +350,6 @@ function odjavljen_navbar(){
 
 //info
 function info_alert(string){
-  let navbar = document.getElementById("navbar");
   let info = document.createElement("div");
   info.classList.add("alert",  "alert-success", "alert-dismissible", "fade", "show");
   info.setAttribute("role", "alert");
