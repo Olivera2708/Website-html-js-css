@@ -324,18 +324,20 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
 // Pop-up za registraciju i za prijavu
 let prijava_popup = document.getElementById('pop-up-prijava');
 let registracija_popup = document.getElementById('pop-up-reg');
-let pozadina = document.getElementById('transparent');
+let pozadina = document.getElementsByClassName('transparent')[0];
 
 dugme_prijava = document.getElementById('dugme-prijava');
 dugme_prijava.addEventListener('click', function(e){
-  registracija_popup.style.display = 'none';
+  pozadina.style.pointerEvents = 'none';
+  document.body.style.overflowY = 'hidden'
   prijava_popup.style.display = 'block';
   pozadina.style.opacity = '0.5';
 })
 
 dugme_registracija = document.getElementById('dugme-reg');
 dugme_registracija.addEventListener('click', function(e){
-  prijava_popup.style.display = 'none';
+  pozadina.style.pointerEvents = 'none';
+  document.body.style.overflowY = 'hidden'
   registracija_popup.style.display = 'block';
   pozadina.style.opacity = '0.5';
 })
@@ -343,13 +345,15 @@ dugme_registracija.addEventListener('click', function(e){
 dugme_izlaz_prij = document.getElementById('button-close-prijava');
 dugme_izlaz_prij.addEventListener('click', function(e){
   prijava_popup.style.display = 'none';
-  if (window.getComputedStyle(registracija_popup).display === 'none')
-    pozadina.style.opacity = '1';
+  pozadina.style.pointerEvents = 'auto';
+  document.body.style.overflowY = 'auto'
+  pozadina.style.opacity = '1';
 })
 
 dugme_izlaz_reg = document.getElementById('button-close-registracija');
 dugme_izlaz_reg.addEventListener('click', function(e){
   registracija_popup.style.display = 'none';
-  if (window.getComputedStyle(prijava_popup).display === 'none')
-    pozadina.style.opacity = '1';
+  pozadina.style.pointerEvents = 'auto';
+  document.body.style.overflowY = 'auto'
+  pozadina.style.opacity = '1';
 })
