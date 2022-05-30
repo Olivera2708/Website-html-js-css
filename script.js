@@ -1,34 +1,32 @@
-let url_korisnici = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/korisnici.json";
-let url_pozorista = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/pozorista.json";
-let url_predstave = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/predstave.json";
+let url_korisnici = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/korisnici";
+let url_pozorista = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/pozorista";
+let url_predstave = "https://web-dizajn-a94be-default-rtdb.firebaseio.com/predstave";
 
 
 // Dobavljanje podataka sa firebase
 
-dobavi_korisnike();
 
-function dobavi_korisnike() {
-  let request_korisnici = new XMLHttpRequest();
-  request_korisnici.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if (this.status == 200) {
-        korisnici = JSON.parse(this.responseText);
-        sessionStorage.setItem("korisnici", JSON.stringify(korisnici));
-        if (document.URL.includes("admin.html")) {
-          prikazi_sve_korisnike(korisnici);
-        }
-        if (document.URL.includes("/profil.html")){
-          prikazi_korisnika(korisnici, sessionStorage.getItem("izabrani_korisnik"));
-        }
-        if (document.URL.includes("edit-profil.html")){
-          prikazi_edit_profil(korisnici, sessionStorage.getItem("izabrani_korisnik"));
-        }
+let request_korisnici = new XMLHttpRequest();
+request_korisnici.onreadystatechange = function () {
+  if (this.readyState == 4) {
+    if (this.status == 200) {
+      korisnici = JSON.parse(this.responseText);
+      sessionStorage.setItem("korisnici", JSON.stringify(korisnici));
+      if (document.URL.includes("admin.html")) {
+        prikazi_sve_korisnike(korisnici);
+      }
+      if (document.URL.includes("/profil.html")){
+        prikazi_korisnika(korisnici, sessionStorage.getItem("izabrani_korisnik"));
+      }
+      if (document.URL.includes("edit-profil.html")){
+        prikazi_edit_profil(korisnici, sessionStorage.getItem("izabrani_korisnik"));
       }
     }
-  };
-  request_korisnici.open("GET", url_korisnici);
-  request_korisnici.send();
-}
+  }
+};
+request_korisnici.open("GET", url_korisnici + ".json");
+request_korisnici.send();
+
 
 let request_pozorista = new XMLHttpRequest();
 request_pozorista.onreadystatechange = function () {
@@ -42,7 +40,7 @@ request_pozorista.onreadystatechange = function () {
     }
   }
 };
-request_pozorista.open("GET", url_pozorista);
+request_pozorista.open("GET", url_pozorista + ".json");
 request_pozorista.send();
 
 let request_predstave = new XMLHttpRequest();
@@ -63,23 +61,47 @@ request_predstave.onreadystatechange = function () {
     }
   }
 };
-request_predstave.open("GET", url_predstave);
+request_predstave.open("GET", url_predstave + ".json");
 request_predstave.send();
 
 //Postavljanje podataka na firebase
+let request_dodaj_korisnike = new XMLHttpRequest();
+request_dodaj_korisnike.onreadystatechange = function () {
+  if (this.readyState == 4) {
+    if (this.status == 200) {
+      sifra = JSON.parse(this.responseText);
+      sessionStorage.setItem("prijavljen_korisnik", sifra.name);
+    }
+  }
+};
+
 let request_izmeni_korisnike = new XMLHttpRequest();
-request_izmeni_korisnike.open("POST", url_korisnici);
+request_izmeni_korisnike.onreadystatechange = function (){
+  if (this.readyState == 4 && this.status == 200){
+    window.location.href = "profil.html";
+  }
+}
 
 let request_izmeni_predstave = new XMLHttpRequest();
-request_izmeni_predstave.open("POST", url_predstave);
+request_izmeni_predstave.open("POST", url_predstave + ".json");
 
 let request_izmeni_pozorista = new XMLHttpRequest();
-request_izmeni_pozorista.open("POST", url_pozorista);
+request_izmeni_pozorista.open("POST", url_pozorista + ".json");
 
 //brisanje podataka
 let request_obrisi_korisnike = new XMLHttpRequest();
+request_obrisi_korisnike.onreadystatechange = function (){
+  if (this.readyState == 4 && this.status == 200){
+    location.reload();
+  }
+}
 
 let request_obrisi_predstave = new XMLHttpRequest();
+request_obrisi_predstave.onreadystatechange = function(){
+  if (this.readyState == 4 && this.status == 200){
+    window.location.href = "pozoriste.html";
+  }
+}
 
 //info
 function info_alert(string){
@@ -270,8 +292,9 @@ function prikazi_sve_korisnike(korisnici){
       $('#exampleModal').modal('toggle');
       let potvrda = document.getElementsByClassName("btn btn-danger potvrda")[0];
       potvrda.addEventListener("click", function(e){
-        //obrisi iz baze i ponovo ucitaj sve iz baze
-        window.location.href = "admin.html";
+        let link = url_korisnici + "/" + korisnik + ".json";
+        request_obrisi_korisnike.open("DELETE", link, true);
+        request_obrisi_korisnike.send();
       });
     });
     user_card.appendChild(deaktiviraj);
@@ -282,6 +305,7 @@ function prikazi_sve_korisnike(korisnici){
 
 //profil.html
 function prikazi_korisnika(korisnici, izabran_korisnik) {
+
   let korisnicko_ime = document.getElementsByClassName("profil-korisnicko-ime")[0];
   korisnicko_ime.innerHTML = korisnici[izabran_korisnik].korisnickoIme;
 
@@ -313,6 +337,7 @@ function prikazi_korisnika(korisnici, izabran_korisnik) {
 
 //edit-profil.html
 function prikazi_edit_profil(korisnici, izabran_korisnik){
+
   let alert_profil = document.getElementById('alert-profil');
   alert_profil.style.color = "red";
   alert_profil.style.textAlign = "center";
@@ -407,9 +432,13 @@ function prikazi_edit_profil(korisnici, izabran_korisnik){
       alert_profil.innerHTML = "Potrebno je uneti validnu email adresu"
     }
     if (uspeh == 1){
-      //azuriraj podatke u bazi
-      info_alert("Uspešna promena podataka");
-      window.location.href = "profil.html"
+      let nova_adresa = adresa.value.trim() + ", " + mesto.value.trim();
+      let novi_podaci = {"adresa": nova_adresa, "datumRodjenja": datum.value, "email": email.value.trim(), "ime": ime.value.trim(),
+                            "korisnickoIme": korisnicko_ime.value.trim(), "lozinka": lozinka.value.trim(),
+                            "prezime": prezime.value.trim(), "telefon": telefon.value.trim()}
+      link = url_korisnici + "/" + izabran_korisnik + ".json";
+      request_izmeni_korisnike.open("PUT", link, true);
+      request_izmeni_korisnike.send(JSON.stringify(novi_podaci));
     }
   });
 }
@@ -417,6 +446,12 @@ function prikazi_edit_profil(korisnici, izabran_korisnik){
 //edit-predsatvu.html
 function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
   sifra_predstava = pozorista[id_pozorista].idPredstava;
+
+  let alert_predstava = document.getElementsByClassName("opisi")[0];
+  alert_predstava.style.color = "red";
+  alert_predstava.style.textAlign = "center";
+
+  let fajl = document.getElementsByClassName("custom-file-input")[0];
 
   let slika = document.getElementsByClassName("img-izmena-predstava")[0];
   slika.src = predstave[sifra_predstava][izabrana_predstava].slika;
@@ -444,15 +479,35 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
 
   obrisi = document.getElementsByClassName("btn btn-danger potvrda")[0];
   obrisi.addEventListener("click", function(e){
-    // let link = url_predstave+"/"+sifra_predstava+"/"+izabrana_predstava;
-    // request_obrisi_predstave.open("DELETE", link, true);
-    // request_obrisi_predstave.send(null);
-    //ponovo ucitaj predstave
-    //vrati na stranu pozorista
-    window.location.href = "pozoriste.html";
+    let link = url_predstave + "/" + sifra_predstava + "/" + izabrana_predstava + ".json";
+    request_obrisi_predstave.open("DELETE", link, true);
+    request_obrisi_predstave.send();
   });
 
   sacuvaj = document.getElementsByClassName("btn btn-outline-dark btn-predstava")[0];
+  sacuvaj.addEventListener("click", function(e){
+    let uspeh = 1;
+    //provera imena
+    if (naziv.value.trim().length == 0){
+      uspeh = 0;
+      alert_predstava.innerHTML = "Potrebno je uneti naziv predstave";
+    }
+    //provera kratkog opisa
+    if (kratak_opis.value.trim().length == 0){
+      uspeh = 0;
+      alert_predstava.innerHTML = "Potrebno je uneti kratak opis";
+    }
+    //provera detaljnog opisa
+    if (opis.value.trim().length == 0){
+      uspeh = 0;
+      alert_predstava.innerHTML = "Potrebno je uneti detaljan opis";
+    }
+    if (uspeh == 1){
+      //azuriraj podatke u bazi
+      window.location.href = "predstava.html"
+      info_alert("Uspešna promena podataka");
+    }
+  });
 }
 
 
@@ -489,6 +544,13 @@ else {
   odjavljen_navbar();
 }
 
+//moj_profil
+let moj_profil = document.getElementById("dugme-profil");
+moj_profil.addEventListener("click", function(e){
+  let trenutno_prijavljen = sessionStorage.getItem("prijavljen_korisnik");
+  sessionStorage.setItem("izabrani_korisnik", trenutno_prijavljen);
+});
+
 //prijava
 let korisnicko_ime_box = document.getElementsByClassName('box korisnicko-box')[0];
 let lozinka_box = document.getElementsByClassName('box password-box')[0];
@@ -498,7 +560,7 @@ prijavi_me.addEventListener('click', function(e){
   let lozinka = lozinka_box.value.trim();
   let korisnicko_ime = korisnicko_ime_box.value.trim();
   //regex porvera ispravnosti
-  let korisnici = JSON.parse(sessionStorage.getItem("korisnici"));
+  korisnici = JSON.parse(sessionStorage.getItem("korisnici"));
   let uspeh = 0;
   for (let korisnik in korisnici){
     if (korisnici[korisnik].korisnickoIme == korisnicko_ime && korisnici[korisnik].lozinka == lozinka){
@@ -514,7 +576,7 @@ prijavi_me.addEventListener('click', function(e){
       document.body.style.overflowY = 'auto'
       pozadina.style.opacity = '1';
       //sacuvaj ako ode u moj profil
-      sessionStorage.setItem("izabrani_korisnik", korisnik);
+      sessionStorage.setItem("prijavljen_korisnik", korisnik);
       uspeh = 1
     }
   }
@@ -608,13 +670,14 @@ registruj_me.addEventListener('click', function(e){
     let novi_korisnik = {"adresa": adresa, "datumRodjenja": datum_box.value, "email": email_box.value.trim(), "ime": ime_box.value.trim(),
                           "korisnickoIme": korisnicko_ime_box_reg.value.trim(), "lozinka": lozinka_box_reg.value.trim(),
                           "prezime": prezime_box.value.trim(), "telefon": telefon_box.value.trim()}
-    let kljuc = request_izmeni_korisnike.send(JSON.stringify(novi_korisnik));
-    dobavi_korisnike();
-    //sacuvaj trenutno ulogovanog
-    //nekako ponovo uzmi podatke sa neta, azuriraj
-    //sessionStorage.setItem("izabrani_korisnik", )
+    request_dodaj_korisnike.open("POST", url_korisnici + ".json");
+    request_dodaj_korisnike.send(JSON.stringify(novi_korisnik));
     reset_value();
     info_alert("Uspešna registracija");
+    registracija_popup.style.display = 'none';
+    pozadina.style.pointerEvents = 'auto';
+    document.body.style.overflowY = 'auto'
+    pozadina.style.opacity = '1';
   }
 });
 

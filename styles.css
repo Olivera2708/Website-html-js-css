@@ -810,7 +810,7 @@ textarea {
   text-align: center;
   font-size: calc(12px + 0.7vw);
   display: inline;
-  width: calc(100px + 3vw);
+  width: calc(125px + 3vw);
   border: none;
   border-radius: 0.5vw;
   outline-color: red;

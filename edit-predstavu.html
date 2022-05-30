@@ -61,7 +61,13 @@
               <input type="number" name="trajanje" class="box-izmena trajanje"><p class="text-dodatak"> minuta</p><br>
 
               <label for="zanr" class="tip-izmene">Žanr</label>
-              <input type="text" class="box-izmena zanr" name="zanr"><br>
+              <select class="box-izmena zanr" name="">
+                <option value="Drama">Drama</option>
+                <option value="Komedija">Tragikomedija</option>
+                <option value="Komedija">Komedija</option>
+                <option value="Muzička parodija">Muzička parodija</option>
+                <option value="Farsa">Farsa</option>
+              </select><br>
 
               <label for="cena" class="tip-izmene">Cena</label>
               <input type="number" class="box-izmena cena" name="cena"><p class="text-dodatak"> dinara</p><br>
@@ -70,7 +76,7 @@
               <input type="number" class="box-izmena osoba" name="broj osoba"><br>
             </div>
           </div>
-          <div class="">
+          <div class="opisi-poruka">
             <br>
             <label for="kratak-opis" class="tip-izmene-textarea">Kratak opis</label>
             <textarea name="kratak-opis-box" class=".form-control box-izmena-text mali" rows="4" cols="80"></textarea><br><br>
@@ -81,6 +87,7 @@
               <button type="button" class="btn btn-outline-dark btn-predstava">Sačuvaj</button>
               <button type="button" class="btn btn-danger btn-predstava" name="button" data-toggle="modal" data-target="#exampleModal">Obriši</button>
             </div>
+            <p class="opisi"></p>
           </div>
         </form>
       </div>
