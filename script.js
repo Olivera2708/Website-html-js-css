@@ -120,6 +120,7 @@ let request_obrisi_predstave = new XMLHttpRequest();
 request_obrisi_predstave.onreadystatechange = function(){
   if (this.readyState == 4 && this.status == 200){
     window.location.href = "pozoriste.html";
+    //promeni broj predstava
   }
 }
 
@@ -700,7 +701,7 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
                               "kratakOpis": kratak_opis.value.trim(), "maxOsobe": osoba.value,
                               "naziv": naziv.value.trim(), "ocena": predstave[sifra_predstava][izabrana_predstava].ocena, "ocene": predstave[sifra_predstava][izabrana_predstava].ocene,
                               "opis": opis.value.trim(), "slika": predstave[sifra_predstava][izabrana_predstava].slika,
-                              "trajanje": trajanje.value, "zanr": zanr.value}
+                              "trajanje": trajanje.value, "zanr": zanr.value, "komentari": predstave[sifra_predstava][izabrana_predstava].komentari}
       link = url_predstave + "/" + sifra_predstava + "/" + izabrana_predstava + ".json";
       request_izmeni_predstave.open("PUT", link, true);
       request_izmeni_predstave.send(JSON.stringify(izmenjeni_podaci));
