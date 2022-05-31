@@ -75,6 +75,17 @@ request_dodaj_korisnike.onreadystatechange = function () {
   }
 };
 
+//dodavanje komentara
+let request_dodaj_komentar = new XMLHttpRequest();
+request_dodaj_komentar.onreadystatechange = function(){
+  if (this.readyState == 4 && this.status == 200){
+    sessionStorage.setItem("postavi_alert", true);
+    location.reload();
+    //prikazi info da je postavljeno
+  }
+}
+
+//izmena podataka
 let request_izmeni_korisnike = new XMLHttpRequest();
 request_izmeni_korisnike.onreadystatechange = function (){
   if (this.readyState == 4 && this.status == 200){
@@ -82,11 +93,20 @@ request_izmeni_korisnike.onreadystatechange = function (){
   }
 }
 
-let request_izmeni_predstave = new XMLHttpRequest();
-request_izmeni_predstave.open("POST", url_predstave + ".json");
+$(document).ready(function(){
+  if (sessionStorage.getItem("postavi_alert")){
+    sessionStorage.removeItem("postavi_alert");
+    info_alert("Vaš komentar je objavljen");
+  }
+});
 
-let request_izmeni_pozorista = new XMLHttpRequest();
-request_izmeni_pozorista.open("POST", url_pozorista + ".json");
+let request_izmeni_predstave = new XMLHttpRequest();
+request_izmeni_predstave.onreadystatechange = function (){
+  if (this.readyState == 4 && this.status == 200){
+    window.location.href = "predstava.html";
+  }
+}
+
 
 //brisanje podataka
 let request_obrisi_korisnike = new XMLHttpRequest();
@@ -237,6 +257,8 @@ function prikazi_predstave(predstave, id_pozorista){
   }
 }
 
+let upozorenje = document.createElement("p"); //upozorenje za komentar
+
 //predstava.html
 function prikazi_predstavu(predstave, izabrana_predstava){
   sessionStorage.setItem("izabrana_predstava", izabrana_predstava);
@@ -256,6 +278,172 @@ function prikazi_predstavu(predstave, izabrana_predstava){
                                 "<br>Trajanje: " + predstave[sifra_predstava][izabrana_predstava].trajanje + " minuta" +
                                 "<br>Cena: " + predstave[sifra_predstava][izabrana_predstava].cena + " dinara" +
                                 "<br>Maksimalan broj osoba: " + predstave[sifra_predstava][izabrana_predstava].maxOsobe;
+
+  //prikaz ocena
+  ocene = predstave[sifra_predstava][izabrana_predstava].ocene;
+  let najveci = Math.max(ocene[0], ocene[1], ocene[2], ocene[3], ocene[4]);
+  let koeficijent = 20 / najveci;
+
+  stubici = document.getElementsByClassName("star");
+  if (ocene[0] == 0){
+    stubici[0].style.height = "0";
+  }
+  else {
+    stubici[0].style.height = (ocene[0]*koeficijent).toString() + "vw";
+  }
+  if (ocene[1] == 0){
+    stubici[1].style.height = "0";
+  }
+  else {
+    stubici[1].style.height = (ocene[1]*koeficijent).toString() + "vw";
+  }
+  if (ocene[2] == 0){
+    stubici[2].style.height = "0";
+  }
+  else {
+    stubici[2].style.height = (ocene[2]*koeficijent).toString() + "vw";
+  }
+  if (ocene[3] == 0){
+    stubici[3].style.height = "0";
+  }
+  else {
+    stubici[3].style.height = (ocene[3]*koeficijent).toString() + "vw";
+  }
+  if (ocene[4] == 0){
+    stubici[4].style.height = "0";
+  }
+  else {
+    stubici[4].style.height = (ocene[4]*koeficijent).toString() + "vw";
+  }
+
+  let ocena_prosek = document.getElementsByClassName("ocena-broj-prosek")[0];
+  ocena_prosek.innerHTML = predstave[sifra_predstava][izabrana_predstava].ocena;
+
+  //prikaz komentara
+  prijavljen = sessionStorage.getItem("prijavljen_korisnik");
+
+  //izgled komentara
+  let komentari = document.getElementsByClassName("komentari")[0];
+
+  svi_komentari = predstave[sifra_predstava][izabrana_predstava].komentari;
+  if (!svi_komentari){
+    komentari.innerHTML = "Nema komentara, budite prvi koji će napisati komentar";
+  }
+  else {
+    for (komentar in svi_komentari){
+      prikazi_sve_komentare(komentari, svi_komentari[komentar].text, svi_komentari[komentar].korisnik, sifra_predstava, izabrana_predstava, komentar, svi_komentari[komentar], 100, komentar);
+    }
+  }
+
+  //napisi komentar
+  pisi_komentar(komentari, sifra_predstava, izabrana_predstava, "")
+
+}
+
+function prikazi_sve_komentare(komentari, komentar_text, ime, sifra_predstava, izabrana_predstava, komentar_sifra, za_petlju, velicina, link){
+  prikazi_komentar(komentari, komentar_text, ime, sifra_predstava, izabrana_predstava, komentar_sifra, velicina, link);
+  try {
+    for (let kom in za_petlju.komentari){
+      link += "/komentari/" + kom;
+      prikazi_sve_komentare(komentari, za_petlju.komentari[kom].text, za_petlju.komentari[kom].korisnik, sifra_predstava, izabrana_predstava, kom, za_petlju.komentari[kom], velicina - 5, link);
+    }
+  }
+  catch{
+
+  }
+}
+
+function prikazi_komentar(komentari, komentar_text, ime, sifra_predstava, izabrana_predstava, komentar_sifra, velicina, link){
+  let komentar = document.createElement("div");
+  komentar.className = "komentar";
+  komentar.style.width = velicina.toString() + "%";
+  komentar.style.marginLeft = "auto";
+  komentar.style.marginRight = "0";
+
+
+  let tekst_komentara = document.createElement("p");
+  tekst_komentara.className = "text-komentara";
+  tekst_komentara.innerHTML = komentar_text;
+  komentar.appendChild(tekst_komentara);
+
+  let donji_komentar = document.createElement("div");
+  donji_komentar.className = "donji-komentar";
+
+  let naziv_komentara = document.createElement("p");
+  naziv_komentara.className = "naziv-komentara";
+  naziv_komentara.innerHTML = ime;
+
+  let odgovori = document.createElement("button");
+  odgovori.className = "btn btn-outline-dark odgovori";
+  odgovori.innerHTML = "Odgovori";
+  odgovori.addEventListener("click", function(e){
+    pisi_komentar(komentar, sifra_predstava, izabrana_predstava, link);
+  })
+
+
+  donji_komentar.appendChild(odgovori);
+  donji_komentar.appendChild(naziv_komentara);
+
+  komentar.appendChild(donji_komentar);
+  komentari.appendChild(komentar);
+}
+
+function pisi_komentar(nadovezi, sifra_predstava, izabrana_predstava, odgovor){
+  let komentar_pisi = document.createElement("div");
+  komentar_pisi.className = "komentar-pisi";
+
+  let textarea = document.createElement("textarea");
+  textarea.className = "text-box-komentar";
+  textarea.cols = "80";
+  textarea.rows = "4";
+  komentar_pisi.appendChild(textarea);
+
+  let komentar_potvrda = document.createElement("div");
+  komentar_potvrda.className = "komentar-potvrda";
+
+  upozorenje.style.color = "red";
+  upozorenje.style.textAlign = "center";
+  upozorenje.style.width = "100%";
+  komentar_potvrda.appendChild(upozorenje);
+
+  let odustani = document.createElement("button");
+  odustani.className = "btn btn-outline-danger odustani-komentar";
+  odustani.innerHTML = "Odustani";
+  odustani.addEventListener("click", function(e){
+    textarea.value = "";
+  });
+
+  let objavi = document.createElement("button");
+  objavi.className = "btn btn-dark objavi-komentar";
+  objavi.innerHTML = "Objavi";
+  objavi.addEventListener("click", function(e){
+    if (sessionStorage.getItem("prijavljen_korisnik") == ""){
+      upozorenje.innerHTML = "Neophodno je biti prijavljen"
+    }
+    else if (textarea.value.trim().length < 20){
+      upozorenje.innerHTML = "Komentar je kratak";
+    }
+    else {
+      novi_komentar = {"text": textarea.value.trim(), "korisnik": sessionStorage.getItem("prijavljen_korisnik_ime")}
+      if (odgovor == ""){
+        //ako nije odgovor na komentar
+        link = url_predstave + "/" + sifra_predstava + "/" + izabrana_predstava + "/komentari.json";
+      }
+      else {
+        //ako je odgovor na komentar
+        console.log(odgovor)
+        link = url_predstave + "/" + sifra_predstava + "/" + izabrana_predstava + "/komentari/" + odgovor + "/komentari.json";
+      }
+      request_dodaj_komentar.open("POST", link, true);
+      request_dodaj_komentar.send(JSON.stringify(novi_komentar));
+    }
+  });
+
+  komentar_potvrda.appendChild(odustani);
+  komentar_potvrda.appendChild(objavi);
+
+  komentar_pisi.appendChild(komentar_potvrda);
+  nadovezi.appendChild(komentar_pisi);
 }
 
 //admin.html
@@ -452,6 +640,11 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
   alert_predstava.style.textAlign = "center";
 
   let fajl = document.getElementsByClassName("custom-file-input")[0];
+  let ime_fajla = document.getElementsByClassName("custom-file-label")[0];
+  fajl.addEventListener("change", function(){
+    fajl_ime = fajl.value.split("\\").pop()
+    ime_fajla.innerHTML = fajl_ime;
+  });
 
   let slika = document.getElementsByClassName("img-izmena-predstava")[0];
   slika.src = predstave[sifra_predstava][izabrana_predstava].slika;
@@ -493,19 +686,24 @@ function izmeni_predstavu(predstave, izabrana_predstava, id_pozorista){
       alert_predstava.innerHTML = "Potrebno je uneti naziv predstave";
     }
     //provera kratkog opisa
-    if (kratak_opis.value.trim().length == 0){
+    if (kratak_opis.value.trim().length < 20){
       uspeh = 0;
       alert_predstava.innerHTML = "Potrebno je uneti kratak opis";
     }
     //provera detaljnog opisa
-    if (opis.value.trim().length == 0){
+    if (opis.value.trim().length < 50){
       uspeh = 0;
       alert_predstava.innerHTML = "Potrebno je uneti detaljan opis";
     }
     if (uspeh == 1){
-      //azuriraj podatke u bazi
-      window.location.href = "predstava.html"
-      info_alert("Uspešna promena podataka");
+      let izmenjeni_podaci = {"cena": cena.value, "kod": predstave[sifra_predstava][izabrana_predstava].kod,
+                              "kratakOpis": kratak_opis.value.trim(), "maxOsobe": osoba.value,
+                              "naziv": naziv.value.trim(), "ocena": predstave[sifra_predstava][izabrana_predstava].ocena, "ocene": predstave[sifra_predstava][izabrana_predstava].ocene,
+                              "opis": opis.value.trim(), "slika": predstave[sifra_predstava][izabrana_predstava].slika,
+                              "trajanje": trajanje.value, "zanr": zanr.value}
+      link = url_predstave + "/" + sifra_predstava + "/" + izabrana_predstava + ".json";
+      request_izmeni_predstave.open("PUT", link, true);
+      request_izmeni_predstave.send(JSON.stringify(izmenjeni_podaci));
     }
   });
 }
@@ -535,6 +733,7 @@ function odjavljen_navbar(){
   navbar_profil.style.display = "none";
   navbar_prijava.style.display = "block";
   navbar_registracija.style.display = "block";
+  sessionStorage.setItem("prijavljen_korisnik", "");
 }
 
 if (sessionStorage.getItem("navbar") == "prijavljen"){
@@ -564,7 +763,6 @@ prijavi_me.addEventListener('click', function(e){
   let uspeh = 0;
   for (let korisnik in korisnici){
     if (korisnici[korisnik].korisnickoIme == korisnicko_ime && korisnici[korisnik].lozinka == lozinka){
-      sessionStorage.setItem("ulogovani_korisnik", korisnicko_ime);
       //promeni navbar
       sessionStorage.setItem("navbar", "prijavljen");
       prijavljen_navbar();
@@ -577,6 +775,7 @@ prijavi_me.addEventListener('click', function(e){
       pozadina.style.opacity = '1';
       //sacuvaj ako ode u moj profil
       sessionStorage.setItem("prijavljen_korisnik", korisnik);
+      sessionStorage.setItem("prijavljen_korisnik_ime", korisnici[korisnik].ime + " " + korisnici[korisnik].prezime);
       uspeh = 1
     }
   }
@@ -672,6 +871,7 @@ registruj_me.addEventListener('click', function(e){
                           "prezime": prezime_box.value.trim(), "telefon": telefon_box.value.trim()}
     request_dodaj_korisnike.open("POST", url_korisnici + ".json");
     request_dodaj_korisnike.send(JSON.stringify(novi_korisnik));
+    sessionStorage.setItem("prijavljen_korisnik_ime", ime_box.value.trim() + " " + prezime_box.value.trim());
     reset_value();
     info_alert("Uspešna registracija");
     registracija_popup.style.display = 'none';
