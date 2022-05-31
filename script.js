@@ -492,6 +492,9 @@ function prikazi_sve_korisnike(korisnici){
       $('#exampleModal').modal('toggle');
       let potvrda = document.getElementsByClassName("btn btn-danger potvrda")[0];
       potvrda.addEventListener("click", function(e){
+        sessionStorage.setItem("navbar", "odjavljen");
+        sessionStorage.setItem("prijavljen_korisnik", "");
+        odjavljen_navbar();
         let link = url_korisnici + "/" + korisnik + ".json";
         request_obrisi_korisnike.open("DELETE", link, true);
         request_obrisi_korisnike.send();
@@ -914,6 +917,7 @@ function reset_value(){
 
 navbar_odjava.addEventListener('click', function(e){
   sessionStorage.setItem("navbar", "odjavljen");
+  sessionStorage.setItem("prijavljen_korisnik", "");
   odjavljen_navbar();
   info_alert("Uspešno ste se izlogovali!");
 })
