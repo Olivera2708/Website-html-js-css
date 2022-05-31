@@ -48,7 +48,7 @@ request_predstave.onreadystatechange = function () {
   if (this.readyState == 4) {
     if (this.status == 200) {
       predstave = JSON.parse(this.responseText);
-      sessionStorage.setItem("predsatve", predstave);
+      sessionStorage.setItem("predstave", JSON.stringify(predstave));
       if (document.URL.includes("pozoriste.html")){
         prikazi_predstave(predstave, sessionStorage.getItem("izabrano_pozoriste"));
       }
@@ -178,8 +178,19 @@ function prikazi_pozorista(pozorista){
     card_ime_pozorista.innerHTML = pozorista[element].naziv;
     pozoriste_izgled.appendChild(card_ime_pozorista);
 
+    //izboj broj predstava
+    let broj = 0;
+    predstave = JSON.parse(sessionStorage.getItem("predstave"));
+    for (let predstava in predstave){
+      if (pozorista[element].idPredstava == predstava){
+        for (el in predstave[predstava]){
+          broj++;
+        }
+      }
+    }
+
     card_opis_pozorista = document.createElement("p");
-    card_opis_pozorista.innerHTML = pozorista[element].adresa + "<br>Broj predstava: " + pozorista[element].brojPredstava;
+    card_opis_pozorista.innerHTML = pozorista[element].adresa + "<br>Broj predstava: " + broj;
     pozoriste_izgled.appendChild(card_opis_pozorista);
 
     kartice.appendChild(pozoriste_card);
