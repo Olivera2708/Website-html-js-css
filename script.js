@@ -106,7 +106,6 @@ request_izmeni_predstave.onreadystatechange = function (){
   }
 }
 
-
 //brisanje podataka
 let request_obrisi_korisnike = new XMLHttpRequest();
 request_obrisi_korisnike.onreadystatechange = function (){
