@@ -500,9 +500,12 @@ function prikazi_sve_korisnike(korisnici){
       $('#exampleModal').modal('toggle');
       let potvrda = document.getElementsByClassName("btn btn-danger potvrda")[0];
       potvrda.addEventListener("click", function(e){
-        sessionStorage.setItem("navbar", "odjavljen");
-        sessionStorage.setItem("prijavljen_korisnik", "");
-        odjavljen_navbar();
+        //ako sam sebe deaktivira automatski ga izlogujem
+        if (sessionStorage.getItem("prijavljen_korisnik") == korisnik){
+          sessionStorage.setItem("navbar", "odjavljen");
+          sessionStorage.setItem("prijavljen_korisnik", "");
+          odjavljen_navbar();
+        }
         let novi_podaci = {"adresa": korisnici[korisnik].adresa, "datumRodjenja": korisnici[korisnik].datum, "email":korisnici[korisnik].email, "ime": korisnici[korisnik].ime,
                               "korisnickoIme": korisnici[korisnik].korisnickoIme, "lozinka": korisnici[korisnik].lozinka,
                               "prezime": korisnici[korisnik].prezime, "telefon": korisnici[korisnik].telefon, "aktivan": !aktivan}
@@ -788,7 +791,7 @@ prijavi_me.addEventListener('click', function(e){
   korisnici = JSON.parse(sessionStorage.getItem("korisnici"));
   let uspeh = 0;
   for (let korisnik in korisnici){
-    if (korisnici[korisnik].korisnickoIme == korisnicko_ime && korisnici[korisnik].lozinka == lozinka){
+    if (korisnici[korisnik].korisnickoIme == korisnicko_ime && korisnici[korisnik].lozinka == lozinka && (korisnici[korisnik].aktivan == null || korisnici[korisnik].aktivan == true)){
       //promeni navbar
       sessionStorage.setItem("navbar", "prijavljen");
       prijavljen_navbar();
@@ -808,7 +811,7 @@ prijavi_me.addEventListener('click', function(e){
   if (uspeh == 0){
     alert_prijava.style.color = "red";
     alert_prijava.style.textAlign = "center"
-    alert_prijava.innerHTML = "Ne postoji korsnik sa ovim korisničkim imenom i lozinkom"
+    alert_prijava.innerHTML = "Ne postoji aktivan korsnik sa ovim korisničkim imenom i lozinkom"
   }
 });
 
