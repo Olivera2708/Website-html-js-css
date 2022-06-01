@@ -484,7 +484,17 @@ function prikazi_sve_korisnike(korisnici){
 
     let deaktiviraj = document.createElement("button");
     deaktiviraj.className = "btn btn-outline-danger btn-deaktiviraj";
-    deaktiviraj.innerHTML = "Deaktiviraj";
+    let aktivan = true;
+    preuzmi = korisnici[korisnik].aktivan;
+    if (preuzmi != null){
+      aktivan = preuzmi;
+    }
+    if (aktivan) {
+      deaktiviraj.innerHTML = "Deaktiviraj";
+    }
+    else {
+      deaktiviraj.innerHTML = "Aktiviraj";
+    }
     deaktiviraj.addEventListener("click", function(e){
       e.preventDefault();
       $('#exampleModal').modal('toggle');
@@ -493,9 +503,12 @@ function prikazi_sve_korisnike(korisnici){
         sessionStorage.setItem("navbar", "odjavljen");
         sessionStorage.setItem("prijavljen_korisnik", "");
         odjavljen_navbar();
+        let novi_podaci = {"adresa": korisnici[korisnik].adresa, "datumRodjenja": korisnici[korisnik].datum, "email":korisnici[korisnik].email, "ime": korisnici[korisnik].ime,
+                              "korisnickoIme": korisnici[korisnik].korisnickoIme, "lozinka": korisnici[korisnik].lozinka,
+                              "prezime": korisnici[korisnik].prezime, "telefon": korisnici[korisnik].telefon, "aktivan": !aktivan}
         let link = url_korisnici + "/" + korisnik + ".json";
-        request_obrisi_korisnike.open("DELETE", link, true);
-        request_obrisi_korisnike.send();
+        request_obrisi_korisnike.open("PUT", link, true);
+        request_obrisi_korisnike.send(JSON.stringify(novi_podaci));
       });
     });
     user_card.appendChild(deaktiviraj);
