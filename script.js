@@ -27,7 +27,6 @@ request_korisnici.onreadystatechange = function () {
 request_korisnici.open("GET", url_korisnici + ".json");
 request_korisnici.send();
 
-
 let request_pozorista = new XMLHttpRequest();
 request_pozorista.onreadystatechange = function () {
   if (this.readyState == 4) {
