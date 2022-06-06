@@ -70,6 +70,9 @@ request_dodaj_korisnike.onreadystatechange = function () {
     if (this.status == 200) {
       sifra = JSON.parse(this.responseText);
       sessionStorage.setItem("prijavljen_korisnik", sifra.name);
+      if (document.URL.includes("admin.html")){
+        document.location.href = "admin.html"
+      }
     }
   }
 };
@@ -610,6 +613,10 @@ function prikazi_edit_profil(korisnici, izabran_korisnik){
         uspeh = 0
         alert_profil.innerHTML = "Izabrano korisnicko ime je zauzeto";
       }
+      if (email_box.value.trim() == korisnici[korisnik].email && email.value.trim() != korisnici[izabran_korisnik].email){
+        uspeh = 0
+        alert_profil.innerHTML = "Vec postoji profil sa ovim emailom";
+      }
     }
     //lozinka
     if (lozinka.value.length < 7){
@@ -846,10 +853,15 @@ registruj_me.addEventListener('click', function(e){
   if ((korisnicko_ime_box_reg.value.trim()).length < 5){
     alert_reg.innerHTML = "Korisnicko ime mora imati vise od 4 karaktera";
   }
+  //provera za korisnicko ime i mejl
   for (let korisnik in korisnici){
     if (korisnicko_ime_box_reg.value.trim() == korisnici[korisnik].korisnickoIme){
       uspeh = 0
       alert_reg.innerHTML = "Izabrano korisnicko ime je zauzeto";
+    }
+    if (email_box.value.trim() == korisnici[korisnik].email){
+      uspeh = 0
+      alert_reg.innerHTML = "Vec postoji profil sa ovim emailom";
     }
   }
   //lozinka
