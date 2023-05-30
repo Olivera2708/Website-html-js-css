@@ -1,2 +1,2 @@
 # Sajt pozorišta Srbije
-Projekat iz predmeta Veb dizajn
+Projekat iz predmeta Web dizajn
